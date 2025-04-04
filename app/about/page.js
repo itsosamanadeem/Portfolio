@@ -44,7 +44,7 @@ export default function About() {
                 <img src="/3.jpg" alt="Harry as a beginner" className="w-full rounded-lg shadow-lg" />
               </div>
               <div className="md:w-2/3 md:pl-8 mt-8 md:mt-0">
-                <h3 className="text-2xl font-bold text-gray-800 dark:text-white dark:text-white">The Spark of Curiosity</h3>
+                <h3 className="text-2xl font-bold text-gray-800 dark:text-white ">The Spark of Curiosity</h3>
                 <p className="mt-4 text-gray-600 dark:text-gray-50">
                   Harry’s coding journey began in high school when he stumbled upon his first programming language—Python. What started as a simple curiosity quickly turned into a passion, as Harry spent countless hours experimenting with code, building small projects, and learning the fundamentals of software development.
                 </p>

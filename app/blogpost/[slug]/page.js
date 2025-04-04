@@ -6,7 +6,7 @@ import rehypeFormat from 'rehype-format'
 import rehypeStringify from 'rehype-stringify'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
-import {unified} from 'unified'
+import { unified } from 'unified'
 import rehypePrettyCode from "rehype-pretty-code";
 import { transformerCopyButton } from '@rehype-pretty/transformers'
 import OnThisPage from "@/components/onthispage"
@@ -15,42 +15,34 @@ import rehypeSlug from 'rehype-slug'
 
 export default async function Page({ params }) {
 
-    // const blog = {
-    //     title: "Typescript tutorial in hindi",
-    //     author: "John Doe",
-    //     description: "This is a sample blog post description.",
-    //     date: "2024-09-02",
-    //     content: "<p>This is the content of the blog post. It can include <strong>HTML</strong> tags and other elements.</p>"
-    // };
+    const filepath = `content/${params.slug}.mdx`
 
-    const filepath = `content/${params.slug}.md`
-    
-    if(!fs.existsSync(filepath)){ 
-        notFound() 
-        return 
-    } 
+    if (!fs.existsSync(filepath)) {
+        notFound()
+        return
+    }
 
     const fileContent = fs.readFileSync(filepath, "utf-8")
-    const {content, data} = matter(fileContent)
+    const { content, data } = matter(fileContent)
 
     const processor = unified()
-    .use(remarkParse)
-    .use(remarkRehype)
-    .use(rehypeDocument, {title: '👋🌍'})
-    .use(rehypeFormat)
-    .use(rehypeStringify) 
-    .use(rehypeSlug)
-    .use(rehypeAutolinkHeadings)
-    .use(rehypePrettyCode, {
-        theme: "github-dark",
-        transformers: [
-            transformerCopyButton({
-              visibility: 'always',
-              feedbackDuration: 3_000,
-            }),
-          ],
+        .use(remarkParse)
+        .use(remarkRehype)
+        .use(rehypeDocument, { title: '👋🌍' })
+        .use(rehypeFormat)
+        .use(rehypeStringify)
+        .use(rehypeSlug)
+        .use(rehypeAutolinkHeadings)
+        .use(rehypePrettyCode, {
+            theme: "github-dark",
+            transformers: [
+                transformerCopyButton({
+                    visibility: 'always',
+                    feedbackDuration: 3_000,
+                }),
+            ],
 
-      })
+        })
 
     const htmlContent = (await processor.process(content)).toString()
 
@@ -64,7 +56,12 @@ export default async function Page({ params }) {
                 <p className="text-sm text-gray-500 mb-4">{data.date}</p>
             </div>
             <div dangerouslySetInnerHTML={{ __html: htmlContent }} className="prose dark:prose-invert"></div>
-            <OnThisPage htmlContent={htmlContent}/>
+            <h2 className="text-2xl font-semibold mt-8 ">Outcome :</h2>
+            <video controls width="100%" className="my-4 rounded-lg shadow-lg" autoPlay>
+                <source src="/videos/search_bar_in_one2many_field.webm" type="video/webm" />
+                Your browser does not support the video tag.
+            </video>
+            <OnThisPage htmlContent={htmlContent} />
         </div>
     )
 }
