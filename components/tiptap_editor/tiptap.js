@@ -7,9 +7,10 @@ import TextAlign from '@tiptap/extension-text-align'
 import Highlight from "@tiptap/extension-highlight";
 import Image from '@tiptap/extension-image'
 import VideoExtension from './VideoExtension'  
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 const Tiptap = ({ content, onChange }) => {
+    const hasSetInitialContent = useRef(false);
 
     const editor = useEditor({
         extensions: [
@@ -30,6 +31,12 @@ const Tiptap = ({ content, onChange }) => {
         },
     });
 
+    useEffect(() => {
+        if (editor && content && !hasSetInitialContent.current) {
+            editor.commands.setContent(content);
+            hasSetInitialContent.current = true;
+        }
+    }, [editor, content]);
     if (!editor) return null;
 
     return (

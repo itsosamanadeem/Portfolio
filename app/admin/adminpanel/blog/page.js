@@ -1,64 +1,101 @@
-'use client';
+"use client";
+import Blog from "@/components/adminpanel/Blog";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
-import { useState } from "react";
-import CurdBlog from "@/components/adminpanel/CrudBlog";
+export default function () {
+    const [query, setQuery] = useState("");
+    const [ID, setID] = useState("");
+    const route = useRouter();
+    const [filteredBlogs, setFilteredBlogs] = useState([]);
 
-export default function CardWithForm() {
-  const [post, setPost] = useState("");
-  const [title, setTitle] = useState("");
-  const [imageBase64, setImageBase64] = useState(""); // To store the base64 image
 
-  const onChange = (content) => setPost(content);
-
-  // Convert selected image to base64
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageBase64(reader.result); // Store the base64 string
-      };
-      reader.readAsDataURL(file); // Convert image to base64
+    function moveto() {
+        if (ID) {
+            route.push(`/admin/adminpanel/blog/edit/${ID}`);
+        }
     }
-  };
 
-  async function handleCreate() {
-    try {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("content", post);
-      if (imageBase64) {
-        formData.append("image", imageBase64); // Send the base64 string
-      }
+    useEffect(() => {
+        if (ID) {
+            moveto();
+        }
+    }, [ID]);
+    const handleDelete = async (id) => {
 
-      const response = await fetch("/api/blog", {
-        method: "POST",
-        body: formData,
-      });
+        if (!confirm("Are you sure you want to delete this blog post?")) return;
 
-      const data = await response.json();
-      console.log(data);
+        try {
+            const response = await fetch(`/api/blog/put/${id}`, {
+                method: "DELETE",
+            });
 
-      if (response.ok) {
-        alert("Blog created successfully!");
-      } else {
-        alert("Failed to create blog.");
-      }
-    } catch (error) {
-      console.error("Error creating blog:", error);
+            if (!response.ok) {
+                throw new Error("Failed to delete blog");
+            }
+
+            const result = await response.json();
+            console.log(result.message);
+            alert("Blog deleted successfully!");
+            window.location.reload();
+        } catch (error) {
+            console.error("Error deleting blog:", error);
+        }
     }
-  }
+    useEffect(() => {
+        const fetchBlogs = async () => {
+            if (query) {
+                try {
+                    const response = await fetch(`/api/blog/search?search=${query}`);
+                    if (!response.ok) {
+                        console.error("Failed to fetch data:", response.status, response.statusText);
+                        return;
+                    }
+                    const data = await response.json();
+                    setFilteredBlogs(data);
+                } catch (error) {
+                    console.error("Error fetching blogs:", error);
+                }
+            } else {
+                try {
+                    const response = await fetch('/api/blog/search');
+                    const data = await response.json();
+                    setFilteredBlogs(data);
+                } catch (error) {
+                    console.error("Error fetching blogs:", error);
+                }
+            }
+        };
 
-  return (
-    <CurdBlog
-      title={title}
-      post={post}
-      onChange={onChange}
-      handleCreate={handleCreate}
-      imageBase64={imageBase64}
-      setImageBase64={setImageBase64}
-      setTitle={setTitle}
-      handleImageChange={handleImageChange} // Pass the image handler to CurdBlog
-    />
-  );
+        fetchBlogs();
+    }, [query]);
+
+    const handleSearch = (e) => {
+        const value = e.target.value;
+        setQuery(value);
+    };
+
+    const clearSearch = () => {
+        setQuery("");
+        setFilteredBlogs([]);
+    };
+
+    const handleCreate =()=>{
+        route.push('/admin/adminpanel/blog/create')
+    }
+
+    return (
+        <>
+            <Blog
+                filteredBlogs={filteredBlogs}
+                clearSearch={clearSearch}
+                handleSearch={handleSearch}
+                query={query}
+                setID={setID}
+                handleDelete={handleDelete}
+                setQuery={setQuery}
+                handleCreate={handleCreate}
+            />
+        </>
+    );
 }

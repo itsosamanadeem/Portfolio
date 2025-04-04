@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          {pathname === "/admin/adminpanel" || pathname === "/admin/adminpanel/blog" ? (
+          {pathname.startsWith("/admin/adminpanel") ? (
             <SidebarProvider>
               <SidebarWrapper/>
               {children}

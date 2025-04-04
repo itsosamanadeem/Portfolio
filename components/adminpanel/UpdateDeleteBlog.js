@@ -9,7 +9,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Tiptap from "@/components/tiptap_editor/tiptap";
-export default function CurdBlog({ post, title, handleCreate, onChange, setTitle,imageBase64,handleImageChange }) {
+export default function UpdateDeleteBlog({
+    title,
+    post,
+    onChange,
+    imageBase64,
+    setImageBase64,
+    setTitle,
+    handleImageChange,
+    id,
+    handleChange,
+    handleDelete }) {
+        
     return (
         <>
             <Card className="w-full min-h-fit my-20 mx-8">
@@ -32,7 +43,7 @@ export default function CurdBlog({ post, title, handleCreate, onChange, setTitle
                                     id="picture"
                                     type="file"
                                     accept="image/*"
-                                    onChange={handleImageChange} 
+                                    onChange={handleImageChange}
                                 />
 
                                 {imageBase64 && (
@@ -47,9 +58,10 @@ export default function CurdBlog({ post, title, handleCreate, onChange, setTitle
                     </form>
                 </CardContent>
                 <CardFooter className="flex justify-start gap-4">
-                    <Button >Save</Button>
-                    <Button >Delete</Button>
-                    <Button onClick={handleCreate}>Create</Button>
+
+                    <Button onClick={handleChange}>Save</Button>
+                    <Button onClick={handleDelete}>Delete</Button>
+
                 </CardFooter>
                 <div className="className='w-full h-full mb-20'">
                     <Tiptap content={post} onChange={onChange} />
