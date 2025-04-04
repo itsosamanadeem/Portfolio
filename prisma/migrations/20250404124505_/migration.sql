@@ -1,8 +1,9 @@
 -- CreateTable
-CREATE TABLE `Post` (
+CREATE TABLE `blog` (
     `id` VARCHAR(191) NOT NULL,
     `title` VARCHAR(191) NOT NULL,
-    `content` VARCHAR(191) NOT NULL,
+    `thumbnail` LONGTEXT NULL,
+    `content` LONGTEXT NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 

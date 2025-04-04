@@ -5,8 +5,9 @@ const prisma = new PrismaClient();
 
 export async function GET(request) {
   try {
-      const searchParams = request.nextUrl.searchParams
-      const query = searchParams.get('search')
+    const searchParams = request.nextUrl.searchParams
+    const query = searchParams.get('search')
+    if (query) {
       const blogs = await prisma.blog.findMany({
         where: {
           title: {
@@ -15,10 +16,14 @@ export async function GET(request) {
         },
       });
       return NextResponse.json(blogs, { status: 200 });
-      
-    } catch (error) {
-      console.log(error);
-      
-      return NextResponse.json({ error: error}, { status: 500 });
+    } else {
+      const blogs = await prisma.blog.findMany();
+      return NextResponse.json(blogs, { status: 200 });
     }
+
+  } catch (error) {
+    console.log(error);
+
+    return NextResponse.json({ error: error }, { status: 500 });
+  }
 }

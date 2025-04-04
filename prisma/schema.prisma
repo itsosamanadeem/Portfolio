@@ -12,10 +12,11 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-model Blog {
+model blog {
   id        String   @id @default(uuid())
   title     String
-  content   String @db.LongText   
+  thumbnail String?  @db.LongText  // No default value
+  content   String  @db.LongText
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
