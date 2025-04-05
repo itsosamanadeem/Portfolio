@@ -6,11 +6,11 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3005:3000"
     depends_on:
       - mysql
     environment:
-      - DATABASE_URL=mysql://root:8008@mysql:3306/portfolio
+      - DATABASE_URL=mysql://root:8008@mysql:3307/portfolio
     command: >
       sh -c "
         npx prisma migrate deploy &&

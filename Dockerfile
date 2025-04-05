@@ -8,7 +8,7 @@ RUN npm install --production --force
 
 COPY . .
 
-EXPOSE 3000
+EXPOSE 3005
 
 RUN npx prisma generate
 
