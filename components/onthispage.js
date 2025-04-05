@@ -6,7 +6,6 @@ const OnThisPage = ({ htmlContent }) => {
   const [headings, setHeadings] = useState([]);
 
   useEffect(() => {
-    // Parse the HTML content and extract h2 headings
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = htmlContent;
     const h2Elements = tempDiv.querySelectorAll('h2');
