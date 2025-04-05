@@ -41,7 +41,7 @@ export default function ProjectComponent({ filteredproject, clearSearch, handleS
                 </div>
                 {filteredproject?.length > 0 || query && (
                     <ul className="absolute left-0 right-0 mt-2 border rounded-md shadow-lg overflow-hidden">
-                        {filteredproject.map((project, index) => (
+                        {Array.isArray(filteredproject) && filteredproject.map((project, index) => (
                             <li
                                 key={index}
                                 className="px-4 py-2 cursor-pointer "
@@ -53,7 +53,7 @@ export default function ProjectComponent({ filteredproject, clearSearch, handleS
                     </ul>
                 )}
                 <div className="grid gap-6 mt-16 sm:grid-cols-1 md:grid-cols-2 mr-8">
-                    {filteredproject.map((project, index) => (
+                    {Array.isArray(filteredproject) && filteredproject.map((project, index) => (
                         <Card key={index} className="flex flex-col sm:flex-row overflow-hidden shadow-lg">
                             <div className="relative w-full sm:w-40 h-40">
                                 <Image

@@ -5,7 +5,7 @@ import Project from "@/components/project/Project";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
-export default function () {
+export default function ProjectListView() {
     const [query, setQuery] = useState("");
     const [ID, setID] = useState("");
     const route = useRouter();
@@ -22,7 +22,7 @@ export default function () {
         if (ID) {
             moveto();
         }
-    }, [ID]);
+    }, [ID, moveto]);
     const handleDelete = async (id) => {
 
         if (!confirm("Are you sure you want to delete this blog post?")) return;
@@ -54,7 +54,12 @@ export default function () {
                         return;
                     }
                     const data = await response.json();
-                    setFilteredproject(data);
+                    if (Array.isArray(data)) {
+                        setFilteredproject(data);
+                    } else {
+                        console.error("Invalid response format, expected array:", data);
+                        setFilteredproject([]); 
+                    }
                 } catch (error) {
                     console.error("Error fetching project:", error);
                 }
@@ -82,7 +87,7 @@ export default function () {
         setFilteredproject([]);
     };
 
-    const handleCreate =()=>{
+    const handleCreate = () => {
         route.push('/admin/adminpanel/project/create')
     }
 

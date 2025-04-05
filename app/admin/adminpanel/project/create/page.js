@@ -3,7 +3,7 @@
 import CreateProject from "@/components/project/CreateProject";
 import { useState } from "react";
 
-export default function createproject() {
+export default function CreateProjectClientSide() {
   const [post, setPost] = useState("");
   const [title, setTitle] = useState("");
   const [imageBase64, setImageBase64] = useState(""); 

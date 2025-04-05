@@ -3,7 +3,7 @@ import Blog from "@/components/adminpanel/Blog";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
-export default function () {
+export default function BlogListView() {
     const [query, setQuery] = useState("");
     const [ID, setID] = useState("");
     const route = useRouter();
@@ -52,7 +52,12 @@ export default function () {
                         return;
                     }
                     const data = await response.json();
-                    setFilteredBlogs(data);
+                    if (Array.isArray(data)) {
+                        setFilteredBlogs(data);
+                    } else {
+                        console.error("Invalid response format, expected array:", data);
+                        setFilteredBlogs([]);
+                    }
                 } catch (error) {
                     console.error("Error fetching blogs:", error);
                 }
@@ -80,7 +85,7 @@ export default function () {
         setFilteredBlogs([]);
     };
 
-    const handleCreate =()=>{
+    const handleCreate = () => {
         route.push('/admin/adminpanel/blog/create')
     }
 

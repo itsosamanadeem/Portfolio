@@ -17,7 +17,7 @@ export default function Admin() {
 
     if (email === "osamanadeem20@gmail.com" && password === "8008") {
       sessionStorage.setItem("isLoggedIn", "true");
-      router.push("/admin/adminpanel");
+      router.push("/admin/adminpanel/project/");
     } else {
       setError("Invalid email or password.");
     }
